@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02-02 DotnetDynamicArray", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-01 QueueUsingCircularArray", "QueueUsingCircularArray\04-01 QueueUsingCircularArray.csproj", "{568361BB-F262-43D5-B0AC-F1879B7B7002}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-02 QueueUsingLinkedList", "QueueUsingLinkedList\04-02 QueueUsingLinkedList.csproj", "{49EA0382-2D3A-442E-814F-FBCFC9AC6BB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-03 DotnetQueue", "DotnetQueue\04-03 DotnetQueue.csproj", "{1CA62714-EEFE-4796-A6DC-95FF3F663462}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{568361BB-F262-43D5-B0AC-F1879B7B7002}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{568361BB-F262-43D5-B0AC-F1879B7B7002}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{568361BB-F262-43D5-B0AC-F1879B7B7002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49EA0382-2D3A-442E-814F-FBCFC9AC6BB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49EA0382-2D3A-442E-814F-FBCFC9AC6BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49EA0382-2D3A-442E-814F-FBCFC9AC6BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49EA0382-2D3A-442E-814F-FBCFC9AC6BB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CA62714-EEFE-4796-A6DC-95FF3F663462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CA62714-EEFE-4796-A6DC-95FF3F663462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CA62714-EEFE-4796-A6DC-95FF3F663462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CA62714-EEFE-4796-A6DC-95FF3F663462}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
