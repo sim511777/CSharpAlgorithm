@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05-02 StackUsingLinkedList"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05-03 DotnetStack", "DotnetStack\05-03 DotnetStack.csproj", "{EF77FBFC-BFD7-4FC2-A29F-77A280A03719}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05-04 DotnetConcurrentStatck", "DotnetConcurrentStatck\05-04 DotnetConcurrentStatck.csproj", "{10702F8B-EAA2-4204-8536-BF5983A4AC98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{EF77FBFC-BFD7-4FC2-A29F-77A280A03719}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF77FBFC-BFD7-4FC2-A29F-77A280A03719}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF77FBFC-BFD7-4FC2-A29F-77A280A03719}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10702F8B-EAA2-4204-8536-BF5983A4AC98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10702F8B-EAA2-4204-8536-BF5983A4AC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10702F8B-EAA2-4204-8536-BF5983A4AC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10702F8B-EAA2-4204-8536-BF5983A4AC98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
