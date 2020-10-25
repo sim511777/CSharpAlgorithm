@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-03 DotnetQueue", "Dotnet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-04 DotnetConcurrentQueue", "DotnetConcurrentQueue\04-04 DotnetConcurrentQueue.csproj", "{012CC8DA-FFDF-423C-B5F0-94A98D0C2D23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05-01 StackUsingArray", "StackUsingArray\05-01 StackUsingArray.csproj", "{E3FC3AF9-B47C-4D82-85D6-E3A4C88A4C09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{012CC8DA-FFDF-423C-B5F0-94A98D0C2D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{012CC8DA-FFDF-423C-B5F0-94A98D0C2D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{012CC8DA-FFDF-423C-B5F0-94A98D0C2D23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3FC3AF9-B47C-4D82-85D6-E3A4C88A4C09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3FC3AF9-B47C-4D82-85D6-E3A4C88A4C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3FC3AF9-B47C-4D82-85D6-E3A4C88A4C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3FC3AF9-B47C-4D82-85D6-E3A4C88A4C09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
