@@ -6,28 +6,16 @@ using System.Threading.Tasks;
 
 namespace Calculator {
     class Calculator {
-        public static decimal Evalute(string[] infixTokens) {
-            // 중위표기를 후위표기로 변환
-            var postifxTokens = ConvertToPostfix(infixTokens);
+        public static decimal Evalute(string expression) {
+            string[] infixTokens = Tokenize(expression);
+            var postfixTokens = ConvertToPostfix(infixTokens);
+            var result = CalcPostfix(postfixTokens);
+            return result;
+        }
 
-            // 후위표기 식 계산
-            string[] operators = { "+", "-", "*", "/" };
-            var stk = new Stack<string>();
-
-            foreach (var tok in postifxTokens) {
-                if (operators.Contains(tok)) {
-                    var n2 = decimal.Parse(stk.Pop());
-                    var n1 = decimal.Parse(stk.Pop());
-                    var res = Calc(tok, n1, n2);
-                    stk.Push(res.ToString());
-                } else {
-                    stk.Push(tok);
-                }
-            }
-
-            // 스택에서 마지막 결과 Pop
-            string result = stk.Pop();
-            return decimal.Parse(result);
+        // 토큰화
+        public static string[] Tokenize(string expression) {
+            return expression.Split(' ');
         }
 
         // 중위표기를 후위표기로 변환
@@ -68,6 +56,27 @@ namespace Calculator {
             return postfix.ToArray();
         }
 
+        // 후위표기식 계산
+        public static decimal CalcPostfix(string[] postfixTokens) {
+            string[] operators = { "+", "-", "*", "/" };
+            var stk = new Stack<string>();
+
+            foreach (var tok in postfixTokens) {
+                if (operators.Contains(tok)) {
+                    var n2 = decimal.Parse(stk.Pop());
+                    var n1 = decimal.Parse(stk.Pop());
+                    var res = Calc(tok, n1, n2);
+                    stk.Push(res.ToString());
+                } else {
+                    stk.Push(tok);
+                }
+            }
+
+            // 스택에서 마지막 결과 Pop
+            string result = stk.Pop();
+            return decimal.Parse(result);
+        }
+
         private static decimal Calc(string op, decimal n1, decimal n2) {
             decimal result = 0;
 
@@ -90,9 +99,13 @@ namespace Calculator {
     class Program {
         static void Main(string[] args) {
             // 테스트 수식
-            string[] tokens = "2 * 3.4 + ( 15 - 2 ) / 2".Split(' ');
+            string expression = "2 * 3.4 + ( 15 - 2 ) / 2";
 
-            var result = Calculator.Evalute(tokens);
+            //중위표현식 : 2 * 3.4 + (15 - 2) / 2
+            //후위표현식 : 2 3.4 * 15 2 - 2 / +
+            //전위표현식 : + * 2 3.4 / - 15 2 2
+
+            var result = Calculator.Evalute(expression);
             Console.WriteLine(result);
         }
     }
