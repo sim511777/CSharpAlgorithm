@@ -77,6 +77,7 @@ namespace Calculator {
             return decimal.Parse(result);
         }
 
+        // 연산자와 피연산자로 값 계산
         private static decimal Calc(string op, decimal n1, decimal n2) {
             decimal result = 0;
 
@@ -96,15 +97,36 @@ namespace Calculator {
         }
     }
 
+/*
+infix             => postfix
+1 * 2 + 3 * 4     => 1 2 * 3 4 * +
+1 + 2 * 3 + 4     => 1 2 3 * + 4 +
+1 + 2 + 3         => 1 2 + 3 +
+1 + 2 * 3         => 1 2 3 * +
+1 * 2 + 3         => 1 2 * 3 +
+( 1 + 2 ) * 3     => 1 2 + 3 *
+1 * ( 2 + 3 )     => 1 2 3 + *
+1 * ( 2 + 3 * 4 ) => 1 2 3 4 * + *
+
+## infix를 postfix로 변환
+infix를 하나씩 꺼내서
+  피연산자 이면 posfix에 추가
+  연산자이면 스택에서 나보다 높은 연산자가 나오기 전까지 스택에서 팝해서 postfix에 추가 하고 나느 스택에 추가
+  열괄호이면 스택에 추가
+  닫괄호이면 열괄호가 나올때 까지 스택에서 팝하여 postfix에 추가
+스택에 남은 연산자들을 모드 postfix에 추가
+
+## postfix를 계산
+postfix를 하나씩 꺼내서
+  피연산자이면 스택에 추가
+  연산자이면 스택에서 피연산자 두개를 꺼내서 계산하고 그 결과를 스택에 추가
+스택에 남은 마지막 값이 최종 결과 값
+*/
+
     class Program {
         static void Main(string[] args) {
             // 테스트 수식
             string expression = "2 * 3.4 + ( 15 - 2 ) / 2";
-
-            //중위표현식 : 2 * 3.4 + (15 - 2) / 2
-            //후위표현식 : 2 3.4 * 15 2 - 2 / +
-            //전위표현식 : + * 2 3.4 / - 15 2 2
-
             var result = Calculator.Evalute(expression);
             Console.WriteLine(result);
         }
