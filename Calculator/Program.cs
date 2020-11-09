@@ -19,7 +19,7 @@ namespace Calculator {
         }
 
         // 중위표기를 후위표기로 변환
-        private static string[] ConvertToPostfix(string[] infix) {
+        public static string[] ConvertToPostfix(string[] infix) {
             var postfix = new List<string>();
             var stk = new Stack<string>();
 
@@ -98,15 +98,15 @@ namespace Calculator {
     }
 
 /*
-infix             => postfix
-1 * 2 + 3 * 4     => 1 2 * 3 4 * +
-1 + 2 * 3 + 4     => 1 2 3 * + 4 +
-1 + 2 + 3         => 1 2 + 3 +
-1 + 2 * 3         => 1 2 3 * +
-1 * 2 + 3         => 1 2 * 3 +
-( 1 + 2 ) * 3     => 1 2 + 3 *
-1 * ( 2 + 3 )     => 1 2 3 + *
-1 * ( 2 + 3 * 4 ) => 1 2 3 4 * + *
+infix             => postfix       => result
+1 * 2 + 3 * 4     => 1 2 * 3 4 * + => 14
+1 + 2 * 3 + 4     => 1 2 3 * + 4 + => 11
+1 + 2 + 3         => 1 2 + 3 +     => 6
+1 + 2 * 3         => 1 2 3 * +     => 7
+1 * 2 + 3         => 1 2 * 3 +     => 5
+( 1 + 2 ) * 3     => 1 2 + 3 *     => 9
+1 * ( 2 + 3 )     => 1 2 3 + *     => 5
+1 * ( 2 + 3 * 4 ) => 1 2 3 4 * + * => 14
 
 ## infix를 postfix로 변환
 infix를 하나씩 꺼내서
@@ -125,10 +125,35 @@ postfix를 하나씩 꺼내서
 
     class Program {
         static void Main(string[] args) {
-            // 테스트 수식
-            string expression = "2 * 3.4 + ( 15 - 2 ) / 2";
-            var result = Calculator.Evalute(expression);
-            Console.WriteLine(result);
+            // 단위 테스트
+            UnitTest();
+        }
+
+        private static void UnitTest() {
+            UnitTestItem("1 * 2 + 3 * 4"    , "1 2 * 3 4 * +", 14M);
+            UnitTestItem("1 + 2 * 3 + 4"    , "1 2 3 * + 4 +", 11M);
+            UnitTestItem("1 + 2 + 3"        , "1 2 + 3 +"    , 6M );
+            UnitTestItem("1 + 2 * 3"        , "1 2 3 * +"    , 7M );
+            UnitTestItem("1 * 2 + 3"        , "1 2 * 3 +"    , 5M );
+            UnitTestItem("( 1 + 2 ) * 3"    , "1 2 + 3 *"    , 9M );
+            UnitTestItem("1 * ( 2 + 3 )"    , "1 2 3 + *"    , 5M );
+            UnitTestItem("1 * ( 2 + 3 * 4 )", "1 2 3 4 * + *", 14M);
+            UnitTestItem("2 * 3.4 + ( 15 - 2 ) / 2", "2 3.4 * 15 2 - 2 / +", 13.4M);
+        }
+
+        private static void UnitTestItem(string infix, string checkPostfix, decimal checkResult) {
+            string[] intok = Calculator.Tokenize(infix);
+            string[] posttok = Calculator.ConvertToPostfix(intok);
+            string postfix = string.Join(" ", posttok);
+            decimal result = Calculator.CalcPostfix(posttok);
+            
+            Console.WriteLine($"infix: {infix}");
+
+            string testPostfix = postfix == checkPostfix ? "OK" : "NG:" + checkPostfix;
+            Console.WriteLine($"  => postifx: {postfix} [{testPostfix}]");
+            string testResult = result == checkResult ? "OK" : "NG:" + checkResult;
+            Console.WriteLine($"  => result: {result} [{testResult}]");
+            Console.WriteLine();
         }
     }
 }
