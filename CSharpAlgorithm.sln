@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05-04 DotnetConcurrentStatc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05-05 Calculator", "Calculator\05-05 Calculator.csproj", "{B98AB6E2-8AF2-4564-9D62-81D4AFD36348}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06-01 TreeNode", "TreeNode\06-01 TreeNode.csproj", "{B475864D-9554-48FC-96CE-31DCD7E347D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{B98AB6E2-8AF2-4564-9D62-81D4AFD36348}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B98AB6E2-8AF2-4564-9D62-81D4AFD36348}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B98AB6E2-8AF2-4564-9D62-81D4AFD36348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B475864D-9554-48FC-96CE-31DCD7E347D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B475864D-9554-48FC-96CE-31DCD7E347D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B475864D-9554-48FC-96CE-31DCD7E347D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B475864D-9554-48FC-96CE-31DCD7E347D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
