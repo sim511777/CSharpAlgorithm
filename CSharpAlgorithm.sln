@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06-02 LCRSNode", "LCRSNode\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06-03 TreeTreversal", "TreeClass\06-03 TreeTreversal.csproj", "{A503F407-6D79-4A9A-98B9-FDEFAF44E69B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06-04 TreeTreversal_NonRecursive", "TreeTreversal_NonRecursive\06-04 TreeTreversal_NonRecursive.csproj", "{57B3F64A-3C8D-4E9A-BC2D-E5F9C7E2975B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{A503F407-6D79-4A9A-98B9-FDEFAF44E69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A503F407-6D79-4A9A-98B9-FDEFAF44E69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A503F407-6D79-4A9A-98B9-FDEFAF44E69B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57B3F64A-3C8D-4E9A-BC2D-E5F9C7E2975B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B3F64A-3C8D-4E9A-BC2D-E5F9C7E2975B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B3F64A-3C8D-4E9A-BC2D-E5F9C7E2975B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B3F64A-3C8D-4E9A-BC2D-E5F9C7E2975B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
