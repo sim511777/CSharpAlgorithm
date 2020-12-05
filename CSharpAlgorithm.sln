@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06-01 TreeNode", "TreeNode\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06-02 LCRSNode", "LCRSNode\06-02 LCRSNode.csproj", "{6846B8E6-234E-4B51-93B6-2F3C44CE79C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06-03 TreeTreversal", "TreeClass\06-03 TreeTreversal.csproj", "{A503F407-6D79-4A9A-98B9-FDEFAF44E69B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{6846B8E6-234E-4B51-93B6-2F3C44CE79C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6846B8E6-234E-4B51-93B6-2F3C44CE79C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6846B8E6-234E-4B51-93B6-2F3C44CE79C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A503F407-6D79-4A9A-98B9-FDEFAF44E69B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A503F407-6D79-4A9A-98B9-FDEFAF44E69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A503F407-6D79-4A9A-98B9-FDEFAF44E69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A503F407-6D79-4A9A-98B9-FDEFAF44E69B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
