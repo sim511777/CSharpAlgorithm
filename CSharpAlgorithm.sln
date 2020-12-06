@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07-01 BinaryTree", "BinaryT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07-02 BinaryTreeUsingArray", "BinaryTreeUsingArray\07-02 BinaryTreeUsingArray.csproj", "{A461E0EA-655D-4C4F-B95A-72B652CB37A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07-03 Traversal", "Traversal\07-03 Traversal.csproj", "{C3CCC385-7966-4900-9345-6FA32B451D60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{A461E0EA-655D-4C4F-B95A-72B652CB37A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A461E0EA-655D-4C4F-B95A-72B652CB37A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A461E0EA-655D-4C4F-B95A-72B652CB37A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3CCC385-7966-4900-9345-6FA32B451D60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3CCC385-7966-4900-9345-6FA32B451D60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3CCC385-7966-4900-9345-6FA32B451D60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3CCC385-7966-4900-9345-6FA32B451D60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
