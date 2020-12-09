@@ -150,6 +150,28 @@ namespace BinaryTree {
                 }
             }
         }
+
+        public void LevelordeNewline() {
+            var que = new Queue<BinaryTreeNode<T>>();
+            que.Enqueue(Root);
+            que.Enqueue(null);
+            while (que.Count > 0) {
+                var node = que.Dequeue();
+                
+                if (node == null) {
+                    Console.WriteLine();
+                    if (que.Count > 0)
+                        que.Enqueue(null);
+                    continue;
+                }
+
+                Console.Write("{0} ", node.Data);
+                if (node.Left != null)
+                    que.Enqueue(node.Left);
+                if (node.Right != null)
+                    que.Enqueue(node.Right);
+            }
+        }
     }
 
 
@@ -177,6 +199,9 @@ namespace BinaryTree {
             Console.WriteLine();
             Console.WriteLine("==== Postorder Iterative 2 ====");
             bt.PostorderIterative2();
+            Console.WriteLine();
+            Console.WriteLine("==== Levelorder Newline ====");
+            bt.LevelordeNewline();
             Console.WriteLine();
         }
     }
