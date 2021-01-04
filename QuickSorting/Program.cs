@@ -6,38 +6,42 @@ using System.Threading.Tasks;
 
 namespace QuickSorting {
     class Program {
-        // 함수 진입점
         public static void QuickSort(int[] arr) {
-            // 처음 시작은 0번부터 배열의 끝까지 정복
             QuickSort(arr, 0, arr.Length - 1);
         }
 
-        // 부분 정복
-        private static void QuickSort(int[] arr, int l, int r) {
-            // l과 r이 같다면 그 부분의 요소의 개수는 1이므로 더이상 정복할 필요가 없다.
-            if (l < r) {
-                // 주어진 부분을 분할 하고 분할 인덱스를 리턴
-                int p = partition(arr, l, r);
-                
-                // 분할 인덱스의 왼쪽 부분과 오른쪽 부분을 각각 정복
-                QuickSort(arr, l, p - 1);
-                QuickSort(arr, p + 1, r);
+        private static void QuickSort(int[] A, int lo, int hi) {
+            if (lo < hi) {
+                int p = Partition_Hoare(A, lo, hi);
+                QuickSort(A, lo, p - 1);
+                QuickSort(A, p + 1, hi);
             }
         }
 
-        // 분할
-        private static int partition(int[] arr, int l, int r) {
-            // 피봇은 맨 오른쪽 값을 사용
-            int pivot = arr[r];
-            int i = (l - 1);
-            for (int j = l; j <= r - 1; j++) {
-                if (arr[j] <= pivot) {
+        private static int Partition_Lomuto(int[] A, int lo, int hi) {
+            int pivot = A[hi];
+            int i = lo;
+            for (int j = lo; j <= hi; j++) {
+                if (A[j] < pivot) {
+                    Swap(ref A[i], ref A[j]);
                     i++;
-                    Swap(ref arr[i], ref arr[j]);
                 }
             }
-            Swap(ref arr[i + 1], ref arr[r]);
-            return i + 1;
+            Swap(ref A[i], ref A[hi]);
+            return i;
+        }
+
+        private static int Partition_Hoare(int[] A, int lo, int hi) {
+            int pivot = A[(lo + hi) / 2];
+            int i = lo - 1;
+            int j = hi + 1;
+            while (true) {
+                do i++; while (A[i] < pivot);
+                do j--; while (A[j] > pivot);
+                if (i >= j)
+                    return j;
+                Swap(ref A[i], ref A[j]);
+            }
         }
 
         private static void Swap(ref int v1, ref int v2) {
