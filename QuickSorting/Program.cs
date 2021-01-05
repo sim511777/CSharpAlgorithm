@@ -44,6 +44,20 @@ namespace QuickSorting {
             }
         }
 
+        private static int Partition_Hoare_0(int[] A, int lo, int hi) {
+            int pivot = A[(lo + hi) / 2];
+            int i = lo;
+            int j = hi;
+            while (true) {
+                while (A[i] < pivot) i++;
+                while (A[j] > pivot) j--;
+                if (i >= j)
+                    return i;
+                Swap(ref A[i], ref A[j]);
+            }
+        }
+
+
         private static void Swap(ref int v1, ref int v2) {
             int temp = v1;
             v1 = v2;
