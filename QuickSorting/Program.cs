@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace QuickSorting {
     class Program {
         public static void QuickSort(int[] arr) {
-            QuickSort(arr, 0, arr.Length - 1);
+            QuickSort_ms(arr, 0, arr.Length - 1);
         }
 
         private static void QuickSort(int[] A, int lo, int hi) {
@@ -16,6 +16,34 @@ namespace QuickSorting {
                 QuickSort(A, lo, p - 1);
                 QuickSort(A, p + 1, hi);
             }
+        }
+
+        private static void QuickSort_ms(int[] map, int left, int right) {
+            do {
+                int i = left;
+                int j = right;
+                int x = map[i + ((j - i) >> 1)];
+                do {
+                    while (i < map.Length && x > map[i]) i++;
+                    while (j >= 0 && x < map[j]) j--;
+                    if (i > j) break;
+                    if (i < j) {
+                        int temp = map[i];
+                        map[i] = map[j];
+                        map[j] = temp;
+                    }
+                    i++;
+                    j--;
+                } while (i <= j);
+                if (j - left <= right - i) {
+                    if (left < j) QuickSort_ms(map, left, j);
+                    left = i;
+                }
+                else {
+                    if (i < right) QuickSort_ms(map, i, right);
+                    right = j;
+                }
+            } while (left < right);
         }
 
         private static int Partition_Lomuto(int[] A, int lo, int hi) {
