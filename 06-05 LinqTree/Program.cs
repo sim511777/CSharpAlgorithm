@@ -2,13 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace _06_05_LinqTree {
+    [DataContract]
     public class TreeNode<T> {
-        public T Data;        
-        public List<TreeNode<T>> Nodes { get; } = new List<TreeNode<T>>();
+        [DataMember]
+        public T Data;
+        [DataMember]
+        public List<TreeNode<T>> Nodes { get; set; } = new List<TreeNode<T>>();
         public TreeNode(T data) => Data = data;
 
         public TreeNode<T> Add(T data) {
@@ -44,7 +47,7 @@ namespace _06_05_LinqTree {
                     queue.Enqueue(node);
                 }
             }
-        }        
+        }
     }
 
     public enum TraversalType {
@@ -53,8 +56,10 @@ namespace _06_05_LinqTree {
         BreadthFirst
     }
 
+    [DataContract]
     public class Tree<T> : IEnumerable<T> {
-        public TreeNode<T> Root { get; }
+        [DataMember]
+        public TreeNode<T> Root { get; set; }
         public Tree() : this(default) { }
         public Tree(T rootData) => Root = new TreeNode<T>(rootData);        
 
@@ -89,13 +94,20 @@ namespace _06_05_LinqTree {
                 }
             }
 
-            foreach (var treversalType in Enum.GetValues(typeof(TraversalType))) {
-                Console.WriteLine($"== {treversalType} == ");
-                foreach (var data in tree.EnumData((TraversalType)treversalType)) {
-                    Console.WriteLine($"{data}");
-                }
-                Console.WriteLine();
-            }
+            var seriliazerType = JsonSerializerType.DataContractJsonSerializer;
+            var json = JsonUtil.ObjectToJson(tree, seriliazerType, true);
+            Console.WriteLine(json);
+
+            var tree2 = JsonUtil.JsonToObject<Tree<string>>(json, seriliazerType);
+            Console.WriteLine(tree2);
+
+            //foreach (var treversalType in Enum.GetValues(typeof(TraversalType))) {
+            //    Console.WriteLine($"== {treversalType} == ");
+            //    foreach (var data in tree.EnumData((TraversalType)treversalType)) {
+            //        Console.WriteLine($"{data}");
+            //    }
+            //    Console.WriteLine();
+            //}
         }
     }
 }
