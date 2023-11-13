@@ -48,6 +48,14 @@ namespace _06_05_LinqTree {
                 }
             }
         }
+
+        internal void Foreach(int level, int index, bool isLast, Action<int, int, bool, T> action) {
+            action(level, index, isLast, Data);
+            for (int i = 0; i < Nodes.Count; i++) {
+                bool isLast2 = i == Nodes.Count - 1;
+                Nodes[i].Foreach(level + 1, i, isLast2, action);
+            }
+        }
     }
 
     public enum TraversalType {
@@ -78,9 +86,23 @@ namespace _06_05_LinqTree {
 
         public IEnumerator<T> GetEnumerator() => EnumData().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public void Foreach(Action<int, int, bool, T> action) {
+            Root.Foreach(0, 0, true, action);
+        }
+
+        //│├└
+        override public string ToString() {
+            var sb = new System.Text.StringBuilder();
+            Foreach((level, index, isLast, data) => {
+                //sb.AppendLine($"{new string('│', level)}{(isLast?"└":"├")}{data}");
+                sb.AppendLine($"{new string(' ', level)}+{data}");
+            });
+            return sb.ToString();
+        }
     }
 
-    internal class Program {
+    internal class Program {        
         static void Main(string[] args) {
             var tree = new Tree<string>("root");
             var node0 = tree.Root;
