@@ -6,99 +6,96 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace _06_05_LinqTree {
-    public class SimpleTreeNode<T> {
-        public T Data { get; set; }
-        public List<SimpleTreeNode<T>> Children { get; set; }
+    public class TreeNode<T> {
+        public T Data;        
+        public List<TreeNode<T>> Nodes { get; } = new List<TreeNode<T>>();
+        public TreeNode(T data) => Data = data;
 
-        public SimpleTreeNode(T data) {
-            this.Data = data;
-            this.Children = new List<SimpleTreeNode<T>>();
+        public TreeNode<T> Add(T data) {
+            var node = new TreeNode<T>(data);
+            Nodes.Add(node);
+            return node;
         }
 
-        public void AddChild(T data) {
-            this.Children.Add(new SimpleTreeNode<T>(data));
-        }
-    }
-
-    public class SimpleTree<T> : IEnumerable<T> {
-        public SimpleTreeNode<T> Root { get; set; }
-
-        public SimpleTree(T rootData) {
-            this.Root = new SimpleTreeNode<T>(rootData);
-        }
-
-        public SimpleTree(SimpleTreeNode<T> root) {
-            this.Root = root;
-        }
-
-        public SimpleTree<T> GetSubTree(SimpleTreeNode<T> node) {
-            return new SimpleTree<T>(node);
-        }
-
-        public void PreOrderTreversal(Action<T> action) {
-            PreOrderTraversal(Root, action);
-        }
-
-        public void PostOrderTreversal(Action<T> action) {
-            PreOrderTraversal(Root, action);
-        }
-
-        public void BreadthFirstTraversal(Action<T> action) {
-            PreOrderTraversal(Root, action);
-        }        
-
-        public static void PreOrderTraversal(SimpleTreeNode<T> node, Action<T> action) {
-            if (node == null) return;
-            action(node.Data);
-            foreach (var child in node.Children) {
-                PreOrderTraversal(child, action);
+        public IEnumerable<T> EnumData() => EnumDataPreorder();
+        public IEnumerable<T> EnumDataPreorder() {
+            yield return Data;
+            foreach (var node in Nodes) {
+                foreach (var data in node.EnumDataPreorder()) {
+                    yield return data;
+                }
             }
         }
-
-        public static void PostOrderTraversal(SimpleTreeNode<T> node, Action<T> action) {
-            if (node == null) return;
-            foreach (var child in node.Children) {
-                PostOrderTraversal(child, action);
+        public IEnumerable<T> EnumDataPostorder() {
+            foreach (var node in Nodes) {
+                foreach (var data in node.EnumDataPostorder()) {
+                    yield return data;
+                }
             }
-            action(node.Data);
+            yield return Data;
         }
-
-        public static void BreadthFirstTraversal(SimpleTreeNode<T> node, Action<T> action) {
-            if (node == null) return;
-            Queue<SimpleTreeNode<T>> queue = new Queue<SimpleTreeNode<T>>();
-            queue.Enqueue(node);
-
+        public IEnumerable<T> EnumDataBreadthFirst() {
+            Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
+            queue.Enqueue(this);
             while (queue.Count > 0) {
                 var current = queue.Dequeue();
-                action(current.Data);
-                foreach (var child in current.Children) {
-                    queue.Enqueue(child);
+                yield return current.Data;
+                foreach (var node in current.Nodes) {
+                    queue.Enqueue(node);
                 }
+            }
+        }        
+    }
+
+    public enum TraversalType {
+        Preorder,
+        Postorder,
+        BreadthFirst
+    }
+
+    public class Tree<T> : IEnumerable<T> {
+        public TreeNode<T> Root { get; }
+        public Tree() : this(default) { }
+        public Tree(T rootData) => Root = new TreeNode<T>(rootData);        
+
+        public IEnumerable<T> EnumData(TraversalType treversalType = TraversalType.Preorder) {
+            switch (treversalType) {
+                case TraversalType.Preorder:
+                    return Root.EnumDataPreorder();
+                case TraversalType.Postorder:
+                    return Root.EnumDataPostorder();
+                case TraversalType.BreadthFirst:
+                    return Root.EnumDataBreadthFirst();
+                default:
+                    throw new Exception("Invalid TraversalType");
             }
         }
 
-        public IEnumerator<T> GetEnumerator() {
-            return GetEnumerableNodes(Root).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return GetEnumerator();
-        }
-
-        private static IEnumerable<T> GetEnumerableNodes(SimpleTreeNode<T> node) {
-            if (node != null) {
-                yield return node.Data;
-                foreach (var child in node.Children) {
-                    foreach (var childData in GetEnumerableNodes(child)) {
-                        yield return childData;
-                    }
-                }
-            }
-        }
+        public IEnumerator<T> GetEnumerator() => EnumData().GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     internal class Program {
         static void Main(string[] args) {
+            var tree = new Tree<string>("root");
+            var node0 = tree.Root;
+            for (int i = 0; i < 3; i++) {
+                var node1 = node0.Add($"{node0.Data}_{i}");
+                for (int j = 0; j < 3; j++) {
+                    var node2 = node1.Add($"{node1.Data}_{j}");
+                    for (int k = 0; k < 3; k++) {
+                        node2.Add($"{node2.Data}_{k}");
+                    }
+                }
+            }
+
+            foreach (var treversalType in Enum.GetValues(typeof(TraversalType))) {
+                Console.WriteLine($"== {treversalType} == ");
+                foreach (var data in tree.EnumData((TraversalType)treversalType)) {
+                    Console.WriteLine($"{data}");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
