@@ -20,86 +20,27 @@ namespace _06_05_LinqTree {
             return node;
         }
 
-        public IEnumerable<T> EnumData() => EnumDataPreorder();
-        public IEnumerable<T> EnumDataPreorder() {
+        public IEnumerable<T> TreversePreorder() {
             yield return Data;
             foreach (var node in Nodes) {
-                foreach (var data in node.EnumDataPreorder()) {
+                // yield return node.TreversePreorder();   // 이렇게 리턴해야 겠지만 
+                foreach (var data in node.TreversePreorder()) {
                     yield return data;
                 }
             }
         }
-        public IEnumerable<T> EnumDataPostorder() {
-            foreach (var node in Nodes) {
-                foreach (var data in node.EnumDataPostorder()) {
-                    yield return data;
-                }
-            }
-            yield return Data;
-        }
-        public IEnumerable<T> EnumDataBreadthFirst() {
-            Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
-            queue.Enqueue(this);
-            while (queue.Count > 0) {
-                var current = queue.Dequeue();
-                yield return current.Data;
-                foreach (var node in current.Nodes) {
-                    queue.Enqueue(node);
-                }
-            }
-        }
-
-        internal void Foreach(int level, int index, bool isLast, Action<int, int, bool, T> action) {
-            action(level, index, isLast, Data);
-            for (int i = 0; i < Nodes.Count; i++) {
-                bool isLast2 = i == Nodes.Count - 1;
-                Nodes[i].Foreach(level + 1, i, isLast2, action);
-            }
-        }
-    }
-
-    public enum TraversalType {
-        Preorder,
-        Postorder,
-        BreadthFirst
     }
 
     [DataContract]
     public class Tree<T> : IEnumerable<T> {
         [DataMember]
         public TreeNode<T> Root { get; set; }
+
         public Tree() : this(default) { }
-        public Tree(T rootData) => Root = new TreeNode<T>(rootData);        
+        public Tree(T rootData) => Root = new TreeNode<T>(rootData);
 
-        public IEnumerable<T> EnumData(TraversalType treversalType = TraversalType.Preorder) {
-            switch (treversalType) {
-                case TraversalType.Preorder:
-                    return Root.EnumDataPreorder();
-                case TraversalType.Postorder:
-                    return Root.EnumDataPostorder();
-                case TraversalType.BreadthFirst:
-                    return Root.EnumDataBreadthFirst();
-                default:
-                    throw new Exception("Invalid TraversalType");
-            }
-        }
-
-        public IEnumerator<T> GetEnumerator() => EnumData().GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => Root.TreversePreorder().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        public void Foreach(Action<int, int, bool, T> action) {
-            Root.Foreach(0, 0, true, action);
-        }
-
-        //│├└
-        override public string ToString() {
-            var sb = new System.Text.StringBuilder();
-            Foreach((level, index, isLast, data) => {
-                //sb.AppendLine($"{new string('│', level)}{(isLast?"└":"├")}{data}");
-                sb.AppendLine($"{new string(' ', level)}+{data}");
-            });
-            return sb.ToString();
-        }
     }
 
     internal class Program {        
@@ -123,13 +64,10 @@ namespace _06_05_LinqTree {
             var tree2 = JsonUtil.JsonToObject<Tree<string>>(json, seriliazerType);
             Console.WriteLine(tree2);
 
-            //foreach (var treversalType in Enum.GetValues(typeof(TraversalType))) {
-            //    Console.WriteLine($"== {treversalType} == ");
-            //    foreach (var data in tree.EnumData((TraversalType)treversalType)) {
-            //        Console.WriteLine($"{data}");
-            //    }
-            //    Console.WriteLine();
-            //}
+            foreach (var data in tree) {
+                Console.WriteLine($"{data}");
+            }
+            Console.WriteLine();
         }
     }
 }
