@@ -12,10 +12,15 @@ namespace _06_05_LinqTree {
         public T Data;
         [DataMember]
         public List<TreeNode<T>> Nodes { get; set; } = new List<TreeNode<T>>();
-        public TreeNode(T data) => Data = data;
+        [DataMember]
+        public TreeNode<T> Parent { get; }
+        public TreeNode(T data, TreeNode<T> parent = null) {
+            Data = data;
+            Parent = parent;
+        }
 
         public TreeNode<T> Add(T data) {
-            var node = new TreeNode<T>(data);
+            var node = new TreeNode<T>(data, this);
             Nodes.Add(node);
             return node;
         }
