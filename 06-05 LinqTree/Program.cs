@@ -6,14 +6,11 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace _06_05_LinqTree {
-    [DataContract]
     public class TreeNode<T> {
-        [DataMember]
         public T Data;
-        [DataMember]
-        public List<TreeNode<T>> Nodes { get; set; } = new List<TreeNode<T>>();
-        [DataMember]
+        public List<TreeNode<T>> Nodes { get; } = new List<TreeNode<T>>();
         public TreeNode<T> Parent { get; }
+
         public TreeNode(T data, TreeNode<T> parent = null) {
             Data = data;
             Parent = parent;
@@ -28,24 +25,47 @@ namespace _06_05_LinqTree {
         public IEnumerable<T> TreversePreorder() {
             yield return Data;
             foreach (var node in Nodes) {
-                // yield return node.TreversePreorder();   // 이렇게 리턴해야 겠지만 
+                // return node.TreversePreorder();   // 이렇게 리턴해야 겠지만 안되네
                 foreach (var data in node.TreversePreorder()) {
                     yield return data;
                 }
             }
         }
+
+        public IEnumerable<T> TreversePostorder() {
+            foreach (var node in Nodes) {
+                foreach (var data in node.TreversePostorder()) {
+                    yield return data;
+                }
+            }
+            yield return Data;
+        }
+
+        public IEnumerable<T> TreverseLevelorder() {
+            var q = new Queue<TreeNode<T>>();
+            q.Enqueue(this);
+            while (q.Count != 0) {
+                var node = q.Dequeue();
+                yield return node.Data;
+                foreach (var child in node.Nodes) {
+                    q.Enqueue(child);
+                }
+            }
+        }
     }
 
-    [DataContract]
     public class Tree<T> : IEnumerable<T> {
-        [DataMember]
-        public TreeNode<T> Root { get; set; }
+        public TreeNode<T> Root { get; }
 
         public Tree() : this(default) { }
         public Tree(T rootData) => Root = new TreeNode<T>(rootData);
 
-        public IEnumerator<T> GetEnumerator() => Root.TreversePreorder().GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => EnumPreorder().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public IEnumerable<T> EnumPreorder() => Root.TreversePreorder();
+        public IEnumerable<T> EnumPostorder() => Root.TreversePostorder();
+        public IEnumerable<T> EnumLevelorder() => Root.TreverseLevelorder();
     }
 
     internal class Program {        
@@ -62,14 +82,26 @@ namespace _06_05_LinqTree {
                 }
             }
 
-            var seriliazerType = JsonSerializerType.DataContractJsonSerializer;
-            var json = JsonUtil.ObjectToJson(tree, seriliazerType, true);
-            Console.WriteLine(json);
-
-            var tree2 = JsonUtil.JsonToObject<Tree<string>>(json, seriliazerType);
-            Console.WriteLine(tree2);
-
+            Console.WriteLine("== tree ==");
             foreach (var data in tree) {
+                Console.WriteLine($"{data}");
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("== EnumPreorder ==");
+            foreach (var data in tree.EnumPreorder()) {
+                Console.WriteLine($"{data}");
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("== EnumPostorder ==");
+            foreach (var data in tree.EnumPostorder()) {
+                Console.WriteLine($"{data}");
+            }
+            Console.WriteLine();
+            
+            Console.WriteLine("== EnumLevelorder ==");
+            foreach (var data in tree.EnumLevelorder()) {
                 Console.WriteLine($"{data}");
             }
             Console.WriteLine();
