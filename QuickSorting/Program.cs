@@ -18,6 +18,23 @@ namespace QuickSorting {
             }
         }
 
+        private static void QuickSort_non_recursive(int[] arr) {
+            var stack = new Stack<int>();
+            stack.Push(0);
+            stack.Push(arr.Length - 1);
+            while (stack.Count != 0) {
+                int hi = stack.Pop();
+                int lo = stack.Pop();
+                if (lo < hi) {
+                    int p = Partition_Hoare(arr, lo, hi);
+                    stack.Push(lo);
+                    stack.Push(p - 1);
+                    stack.Push(p + 1);
+                    stack.Push(hi);
+                }
+            }
+        }
+        
         private static void QuickSort_ms(int[] map, int left, int right) {
             do {
                 int i = left;
@@ -96,7 +113,7 @@ namespace QuickSorting {
             var rnd = new Random();
             var arr = Enumerable.Range(0, 20).OrderBy(n => rnd.Next()).ToArray();
             Console.WriteLine(string.Join(" " , arr));
-            QuickSort(arr);
+            QuickSort_non_recursive(arr);
             Console.WriteLine(string.Join(" " , arr));
         }
     }
