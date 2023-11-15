@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -68,7 +69,7 @@ namespace _06_05_LinqTree {
         static void Main(string[] args) {
             var t0 = Stopwatch.GetTimestamp();
 
-            Tree<string> tree = GetDriveTree("d:\\");
+            Tree<string> tree = GetDriveTree_BreadthFirst("d:\\");
 
             var t1 = Stopwatch.GetTimestamp();
 
@@ -103,7 +104,7 @@ namespace _06_05_LinqTree {
             while (stack.Count != 0) {
                 var node = stack.Pop();
                 try {
-                    foreach (var dir in System.IO.Directory.GetDirectories(node.Data)) {
+                    foreach (var dir in Directory.GetDirectories(node.Data)) {
                         var child = node.Add(dir);
                         stack.Push(child);
                     }
@@ -112,5 +113,24 @@ namespace _06_05_LinqTree {
 
             return tree;
         }
+
+        private static Tree<string> GetDriveTree_BreadthFirst(string drive) {
+            var tree = new Tree<string>(drive);
+            var root = tree.Root;
+            var q = new Queue<TreeNode<string>>();
+            q.Enqueue(root);
+
+            while (q.Count != 0) {
+                var node = q.Dequeue();
+                try {
+                    foreach (var dir in Directory.GetDirectories(node.Data)) {
+                        var child = node.Add(dir);
+                        q.Enqueue(child);
+                    }
+                } catch (Exception) { }
+            }
+
+            return tree;
+        }            
     }
 }
