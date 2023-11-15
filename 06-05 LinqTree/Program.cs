@@ -32,6 +32,19 @@ namespace _06_05_LinqTree {
             }
         }
 
+        // non recursive for TreversePreorder
+        public IEnumerable<T> TreversePreorder_non_recursive() {
+            var stack = new Stack<TreeNode<T>>();
+            stack.Push(this);
+            while (stack.Count != 0) {
+                var node = stack.Pop();
+                yield return node.Data;
+                for (int i = node.Nodes.Count - 1; i >= 0; i--) {
+                    stack.Push(node.Nodes[i]);
+                }
+            }
+        }
+
         public IEnumerable<T> TreversePostorder() {
             foreach (var node in Nodes) {
                 foreach (var data in node.TreversePostorder()) {
@@ -39,6 +52,19 @@ namespace _06_05_LinqTree {
                 }
             }
             yield return Data;
+        }
+
+        // non recursive for TreversePostorder
+        public IEnumerable<T> TreversePostorder_non_recursive() {
+            var stack = new Stack<TreeNode<T>>();
+            stack.Push(this);
+            while (stack.Count != 0) {
+                var node = stack.Pop();
+                for (int i = node.Nodes.Count - 1; i >= 0; i--) {
+                    stack.Push(node.Nodes[i]);
+                }
+                yield return node.Data;
+            }
         }
 
         public IEnumerable<T> TreverseLevelorder() {
@@ -64,7 +90,9 @@ namespace _06_05_LinqTree {
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public IEnumerable<T> EnumPreorder() => Root.TreversePreorder();
+        public IEnumerable<T> EnumPreorder_non_recursive() => Root.TreversePreorder_non_recursive();
         public IEnumerable<T> EnumPostorder() => Root.TreversePostorder();
+        public IEnumerable<T> EnumPostorder_non_recursive() => Root.TreversePostorder_non_recursive();
         public IEnumerable<T> EnumLevelorder() => Root.TreverseLevelorder();
     }
 
@@ -82,11 +110,11 @@ namespace _06_05_LinqTree {
                 }
             }
 
-            Console.WriteLine("== tree ==");
-            foreach (var data in tree) {
-                Console.WriteLine($"{data}");
-            }
-            Console.WriteLine();
+            //Console.WriteLine("== tree ==");
+            //foreach (var data in tree) {
+            //    Console.WriteLine($"{data}");
+            //}
+            //Console.WriteLine();
 
             Console.WriteLine("== EnumPreorder ==");
             foreach (var data in tree.EnumPreorder()) {
@@ -94,8 +122,20 @@ namespace _06_05_LinqTree {
             }
             Console.WriteLine();
 
+            Console.WriteLine("== EnumPreorder_non_recursive ==");
+            foreach (var data in tree.EnumPreorder_non_recursive()) {
+                Console.WriteLine($"{data}");
+            }
+            Console.WriteLine();
+
             Console.WriteLine("== EnumPostorder ==");
             foreach (var data in tree.EnumPostorder()) {
+                Console.WriteLine($"{data}");
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("== EnumPostorder_non_recursive ==");
+            foreach (var data in tree.EnumPostorder_non_recursive()) {
                 Console.WriteLine($"{data}");
             }
             Console.WriteLine();
