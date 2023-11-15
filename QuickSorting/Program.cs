@@ -19,18 +19,16 @@ namespace QuickSorting {
         }
 
         private static void QuickSort_non_recursive(int[] arr) {
-            var stack = new Stack<int>();
-            stack.Push(0);
-            stack.Push(arr.Length - 1);
+            var stack = new Stack<Tuple<int, int>>();
+            stack.Push(Tuple.Create(0, arr.Length - 1));
             while (stack.Count != 0) {
-                int hi = stack.Pop();
-                int lo = stack.Pop();
+                var tuple = stack.Pop();
+                int lo = tuple.Item1;
+                int hi = tuple.Item2;
                 if (lo < hi) {
                     int p = Partition_Hoare(arr, lo, hi);
-                    stack.Push(lo);
-                    stack.Push(p - 1);
-                    stack.Push(p + 1);
-                    stack.Push(hi);
+                    stack.Push(Tuple.Create(lo, p - 1));
+                    stack.Push(Tuple.Create(p + 1, hi));
                 }
             }
         }
