@@ -12,6 +12,7 @@ namespace _06_05_LinqTree {
         public T Data;
         public List<TreeNode<T>> Nodes { get; } = new List<TreeNode<T>>();
         public TreeNode<T> Parent { get; }
+        public TreeNode<T> this[int i] => Nodes[i];
 
         public TreeNode(T data, TreeNode<T> parent = null) {
             Data = data;
