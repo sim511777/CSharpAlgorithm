@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace _06_05_LinqTree {
@@ -22,52 +24,19 @@ namespace _06_05_LinqTree {
             return node;
         }
 
-        public IEnumerable<T> TreversePreorder() {
-            yield return Data;
-            foreach (var node in Nodes) {
-                // return node.TreversePreorder();   // 이렇게 리턴해야 겠지만 안되네
-                foreach (var data in node.TreversePreorder()) {
-                    yield return data;
-                }
-            }
-        }
-
-        // non recursive for TreversePreorder
-        public IEnumerable<T> TreversePreorder_non_recursive() {
+        public IEnumerable<T> Treverse_DepthFirst() {
             var stack = new Stack<TreeNode<T>>();
             stack.Push(this);
             while (stack.Count != 0) {
                 var node = stack.Pop();
                 yield return node.Data;
-                for (int i = node.Nodes.Count - 1; i >= 0; i--) {
-                    stack.Push(node.Nodes[i]);
+                foreach (var child in node.Nodes) {
+                    stack.Push(child);
                 }
             }
         }
 
-        public IEnumerable<T> TreversePostorder() {
-            foreach (var node in Nodes) {
-                foreach (var data in node.TreversePostorder()) {
-                    yield return data;
-                }
-            }
-            yield return Data;
-        }
-
-        // non recursive for TreversePostorder
-        public IEnumerable<T> TreversePostorder_non_recursive() {
-            var stack = new Stack<TreeNode<T>>();
-            stack.Push(this);
-            while (stack.Count != 0) {
-                var node = stack.Pop();
-                for (int i = node.Nodes.Count - 1; i >= 0; i--) {
-                    stack.Push(node.Nodes[i]);
-                }
-                yield return node.Data;
-            }
-        }
-
-        public IEnumerable<T> TreverseLevelorder() {
+        public IEnumerable<T> Treverse_BreadthFirst() {
             var q = new Queue<TreeNode<T>>();
             q.Enqueue(this);
             while (q.Count != 0) {
@@ -86,65 +55,61 @@ namespace _06_05_LinqTree {
         public Tree() : this(default) { }
         public Tree(T rootData) => Root = new TreeNode<T>(rootData);
 
-        public IEnumerator<T> GetEnumerator() => EnumPreorder().GetEnumerator();
+        // IEnumerable<T> implementation
+        public IEnumerator<T> GetEnumerator() => Treverse_DepthFirst().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerable<T> EnumPreorder() => Root.TreversePreorder();
-        public IEnumerable<T> EnumPreorder_non_recursive() => Root.TreversePreorder_non_recursive();
-        public IEnumerable<T> EnumPostorder() => Root.TreversePostorder();
-        public IEnumerable<T> EnumPostorder_non_recursive() => Root.TreversePostorder_non_recursive();
-        public IEnumerable<T> EnumLevelorder() => Root.TreverseLevelorder();
+        public IEnumerable<T> Treverse_DepthFirst() => Root.Treverse_DepthFirst();
+        public IEnumerable<T> Treverse_BreadthFirst() => Root.Treverse_BreadthFirst();
     }
 
     internal class Program {        
         static void Main(string[] args) {
-            var tree = new Tree<string>("root");
-            var node0 = tree.Root;
-            for (int i = 0; i < 3; i++) {
-                var node1 = node0.Add($"{node0.Data}_{i}");
-                for (int j = 0; j < 3; j++) {
-                    var node2 = node1.Add($"{node1.Data}_{j}");
-                    for (int k = 0; k < 3; k++) {
-                        node2.Add($"{node2.Data}_{k}");
-                    }
-                }
-            }
+            var t0 = Stopwatch.GetTimestamp();
 
-            //Console.WriteLine("== tree ==");
-            //foreach (var data in tree) {
-            //    Console.WriteLine($"{data}");
+            Tree<string> tree = GetDriveTree("d:\\");
+
+            var t1 = Stopwatch.GetTimestamp();
+
+            var sb = new StringBuilder();
+
+            Console.WriteLine("== Treverse_DepthFirst ==");
+            foreach (var data in tree.Treverse_DepthFirst()) {
+                sb.AppendLine($"{data}");
+            }
+            Console.WriteLine();
+
+            //Console.WriteLine("== Treverse_BreadthFirst ==");
+            //foreach (var data in tree.Treverse_BreadthFirst()) {
+            //    sb.AppendLine($"{data}");
             //}
             //Console.WriteLine();
 
-            Console.WriteLine("== EnumPreorder ==");
-            foreach (var data in tree.EnumPreorder()) {
-                Console.WriteLine($"{data}");
-            }
-            Console.WriteLine();
+            var t2 = Stopwatch.GetTimestamp();
 
-            Console.WriteLine("== EnumPreorder_non_recursive ==");
-            foreach (var data in tree.EnumPreorder_non_recursive()) {
-                Console.WriteLine($"{data}");
-            }
-            Console.WriteLine();
+            Console.WriteLine(sb.ToString()); 
 
-            Console.WriteLine("== EnumPostorder ==");
-            foreach (var data in tree.EnumPostorder()) {
-                Console.WriteLine($"{data}");
-            }
-            Console.WriteLine();
+            Console.WriteLine($"Generation: {(t1 - t0) / (double)Stopwatch.Frequency * 1000:F2} ms");
+            Console.WriteLine($"Enumration: {(t2 - t1) / (double)Stopwatch.Frequency * 1000:F2} ms");
+        }
 
-            Console.WriteLine("== EnumPostorder_non_recursive ==");
-            foreach (var data in tree.EnumPostorder_non_recursive()) {
-                Console.WriteLine($"{data}");
+        private static Tree<string> GetDriveTree(string drive) {
+            var tree = new Tree<string>(drive);
+            var root = tree.Root;
+            var stack = new Stack<TreeNode<string>>();
+            stack.Push(root);
+
+            while (stack.Count != 0) {
+                var node = stack.Pop();
+                try {
+                    foreach (var dir in System.IO.Directory.GetDirectories(node.Data)) {
+                        var child = node.Add(dir);
+                        stack.Push(child);
+                    }
+                } catch (Exception) { }
             }
-            Console.WriteLine();
-            
-            Console.WriteLine("== EnumLevelorder ==");
-            foreach (var data in tree.EnumLevelorder()) {
-                Console.WriteLine($"{data}");
-            }
-            Console.WriteLine();
+
+            return tree;
         }
     }
 }
